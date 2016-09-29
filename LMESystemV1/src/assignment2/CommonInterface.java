@@ -5,9 +5,7 @@ package assignment2;
 public interface CommonInterface {
 	public char getPrefixId(String objectId);
 	public int getNumId(String objectId);
-	
 	public boolean activate();
 	public boolean deactivate();
-	
 	public String print();
 }
