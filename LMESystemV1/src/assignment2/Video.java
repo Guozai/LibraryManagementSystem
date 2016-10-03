@@ -15,11 +15,23 @@ public class Video extends Holding implements CommonInterface, HoldingInterface 
 	}
 	
 	public boolean isVideo() {
-		if (getPrefixId(getHoldingId()) == 'v') {
+		if (getPrefixId(getObjectId()) == 'v') {
 			return true;
 		}
 		else {
 			return false;
+		}
+	}
+	
+	public double calculateLateFee(DateTime dateReturned) {
+		setNumLateDay(DateTime.diffDays(getDateBorrowed(), dateReturned) - MAX_LOAN_DAYS);
+		if ( getNumLateDay() > 0) {
+			this.setLatePenaltyFee(this.getLatePenaltyFee() * getNumLateDay()); 
+			return this.getLatePenaltyFee();
+		}
+		else {
+			System.out.println("Error: Return before the due date. No penalty");
+			return -1;
 		}
 	}
 	
@@ -37,8 +49,8 @@ public class Video extends Holding implements CommonInterface, HoldingInterface 
 	////////////////////////////////////////////////////////////////////////
 	
 	public String toString() {
-		return this.getHoldingId() + ":" + this.getTitle() + ":" + this.runningTime + ":" 
-				+ this.getLoanDate() + ":" + this.getLoanFee() + ":" + MAX_LOAN_DAYS + ":" 
+		return this.getObjectId() + ":" + this.getTitle() + ":" + this.runningTime + ":" 
+				+ this.getDateBorrowed() + ":" + this.getLoanFee() + ":" + MAX_LOAN_DAYS + ":" 
 				+ translateTrueToActive(this.getIsActive());
 	}
 	
@@ -55,15 +67,15 @@ public class Video extends Holding implements CommonInterface, HoldingInterface 
 		if (this.isVideo() == true) {
 			if (this.getIsActive() == true) {
 				if (this.getIsOnLoan() == false) {
-					return "Not on loan:\nID:               " + this.getHoldingId() + "\nTitle:            " + this.getTitle()
+					return "Not on loan:\nID:               " + this.getObjectId() + "\nTitle:            " + this.getTitle()
 							+ "\nRunning Time:     " + runningTime + "\nLoan Fee:         " + this.getLoanFee()
 							+ "\nMax Loan Period:  " + MAX_LOAN_DAYS
 							+ "\nOn Loan:          No\nSystem Status:    Active";
 				} else {
-					return "On loan:\nID:               " + this.getHoldingId() + "\nTitle:            " + this.getTitle()
+					return "On loan:\nID:               " + this.getObjectId() + "\nTitle:            " + this.getTitle()
 							+ "\nRunning Time:     " + runningTime + "\nLoan Fee:         " + this.getLoanFee()
 							+ "\nMax Loan Period:  " + MAX_LOAN_DAYS + "\nOn Loan:          Yes\nDate of Loan:     "
-							+ this.getLoanDate() + "\nSystem Status:    Active";
+							+ this.getDateBorrowed() + "\nSystem Status:    Active";
 				}
 			} else {
 				return "Error: Book is inactive.";
@@ -78,7 +90,7 @@ public class Video extends Holding implements CommonInterface, HoldingInterface 
 		System.out.println("Running the unit test for Video class...");
 		this.activate();
 		this.setIsOnLoan();
-		this.setLoanDate(new DateTime());
+		this.setDateBorrowed(new DateTime());
 		System.out.print(this.print());
 		System.out.print("\n\n");
 		System.out.println(this.toString());

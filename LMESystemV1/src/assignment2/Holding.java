@@ -2,105 +2,61 @@ package assignment2;
 
 import lms.model.util.*;
 
-public abstract class Holding implements CommonInterface, HoldingInterface {
-	private char prefixId;
-	private int numId;
-	private String holdingId;
-	private String title;
+public abstract class Holding extends CommonObject implements CommonInterface, HoldingInterface {
 	private double loanFee;
 	private int maxLoanDay;
-	private DateTime loanDate;
+	private DateTime dateBorrowed;
 	private double latePenaltyFee;
 	private int numLateDay;
-	private boolean isActive = false;
 	private boolean isOnLoan;
 	private static final int LENGTH_OF_PREFIX = 1;
 	private static final int LENGTH_OF_PREDEFINED_ID_LENGTH = 6;
+	private char prefixIdTemp;
 	
 	public Holding(String holdingId, String title) {
-		this.setHoldingId(holdingId);
+		this.setObjectId(holdingId);
 		this.setTitle(title);
-	}
-	
-	// Methods from CommonInterface
-	// getPrefixId, getNumId, activate, deactivate, calculateLateFee, print
-	public char getPrefixId(String holdingId) {
-		try {
-			this.prefixId = holdingId.charAt(0);
-		} catch (Exception e) {
-			System.out.println(e.toString());
-		}
-		return this.prefixId;
-	}
-	
-	public int getNumId(String holdingId) {
-		try {
-			Integer.parseInt(holdingId.substring(1, 6));
- 		}
- 		catch(NumberFormatException e) {
-			// System.out.println("Format Error: " + e.toString());
- 			this.isActive = false;
- 		}
-		return Integer.parseInt(holdingId.substring(1, 6));
 	}
 	
 	public boolean activate() {
 		// This may have problem, need to CHANGE later DEFINITELY.
-		this.isActive = true;
-		return isActive;
+		setIsActive(true);
+		return getIsActive();
 	}
 	
 	public boolean deactivate() {
 		// Check if the holding is having an invalid ID
-		this.prefixId = getPrefixId(holdingId);
-		this.numId = getNumId(holdingId);
-		if(prefixId != 'b' || prefixId != 'v' || 
-				holdingId.length() - LENGTH_OF_PREFIX > LENGTH_OF_PREDEFINED_ID_LENGTH) {
-			this.isActive = false;
+		prefixIdTemp = getPrefixId(this.getObjectId());
+		if(prefixIdTemp != 'b' || prefixIdTemp != 'v' || 
+				getObjectId().length() - LENGTH_OF_PREFIX > LENGTH_OF_PREDEFINED_ID_LENGTH) {
+			setIsActive(false);
 		}
 		// Check if the holding is having an invalid title
-		if(title.length() < 1) {
-			this.isActive = false;
+		if(this.getTitle().length() < 1) {
+			setIsActive(false);
 		}
 		// Check if the holding is damaged
 		/**
 		 * Need to add code later
 		 */
 		// Check if the holding on loan - not needed - no status change
-		return isActive;
+		return getIsActive();
 	}
 	
-	public double calculateLateFee(double latePenaltyFee, int numLateDay) {
-		return latePenaltyFee * numLateDay;
-	}
+	public abstract double calculateLateFee(DateTime dateReturned);
 	
 	public abstract String print();
 	
 	////////////////////////////////////////////////////////////////////////
 	// getters and setters
 	//
-	public void setHoldingId(String holdingId) {
-		if (holdingId.length() == 7) {
-			this.holdingId = holdingId;
+	public void setObjectId(String holdingId) {
+		if(holdingId.length() == 7) {
+			this.objectId = holdingId;
 		}
 		else {
 			System.out.println("Invalid Book or Video ID");
 		}
-	}
-	public String getHoldingId() {
-		return this.holdingId;
-	}
-	
-	public void setTitle(String title) {
-		if(title.length() > 0) {
-			this.title = title;
-		}
-		else {
-			System.out.println("Error: Title cannot be left blank!");
-		}
-	}
-	public String getTitle() {
-		return this.title;
 	}
 	
 	public void setLoanFee(double loanFee) {
@@ -117,15 +73,25 @@ public abstract class Holding implements CommonInterface, HoldingInterface {
 		return this.maxLoanDay;
 	}
 	
-	public void setLoanDate(DateTime loanDate) {
-		this.loanDate = loanDate;
+	public void setDateBorrowed(DateTime dateBorrowed) {
+		this.dateBorrowed = dateBorrowed;
 	}
-	public DateTime getLoanDate() {
-		return this.loanDate;
+	public DateTime getDateBorrowed() {
+		return this.dateBorrowed;
 	}
 	
-	public boolean getIsActive() {
-		return this.isActive;
+	public void setLatePenaltyFee(double latePenaltyFee) {
+		this.latePenaltyFee = latePenaltyFee;
+	}
+	public double getLatePenaltyFee() {
+		return this.latePenaltyFee;
+	}
+	
+	public void setNumLateDay(int numLateDay) {
+		this.numLateDay = numLateDay;
+	}
+	public int getNumLateDay() {
+		return this.numLateDay;
 	}
 	
 	public void setIsOnLoan() {
