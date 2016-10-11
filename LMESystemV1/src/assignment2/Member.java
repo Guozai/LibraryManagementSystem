@@ -4,7 +4,6 @@ public abstract class Member extends CommonObject implements CommonInterface, Me
 	private double credit;
 	private int numHolding;
 	private Holding[] holdings = new Holding[20];
-	//private Holding[] holdings = new Holding[20];
 	private static final double MAX_CREDIT_STANDARD_MEMBER = 30;
 	private final double MAX_CREDIT_PREMIUM_MEMBER = 45;
 	private char prefixId;
@@ -35,18 +34,21 @@ public abstract class Member extends CommonObject implements CommonInterface, Me
 	////////////////////////////////////////////////////////////////////////
 	// getters and setters
 	//
-	public void setObjectId(String memberId) {
+	public boolean setObjectId(String memberId) {
 		if (memberId.length() == 7) {
 			prefixId = this.getPrefixId(memberId);
 
 			if (this.prefixId == 's' || this.prefixId == 'p') {
-				this.objectId = memberId;
+				super.setObjectId(memberId);
+				return true;
 			} else {
 				System.out.println("Error: object is not a member.");
+				return false;
 			}
 		}
 		else {
 			System.out.println("Invalid memeber ID");
+			return false;
 		}
 	}
 	
@@ -79,7 +81,7 @@ public abstract class Member extends CommonObject implements CommonInterface, Me
 	public boolean borrowHolding(Holding holding) {
 		if (getIsActive() == true || credit > holding.getLoanFee()) {
 			credit -= holding.getLoanFee();
-			holdings[holdings.length] = holding;
+			holdings[holdings.length-1] = holding;
 			return true;
 		}
 		else {
@@ -117,7 +119,7 @@ public abstract class Member extends CommonObject implements CommonInterface, Me
 		while(getNumId(holdings[arrayIndex].getObjectId()) != numHolding) {
 			arrayIndex++;
 		}
-		for(int h = arrayIndex; h < holdings.length; h++) {
+		for(int h = arrayIndex; h < holdings.length - 1; h++) {
 			holdings[h] = holdings[h + 1];
 		}
 		holdings[holdings.length - 1].setObjectId("");

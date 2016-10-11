@@ -54,8 +54,13 @@ public class Book extends Holding implements CommonInterface, HoldingInterface {
 	////////////////////////////////////////////////////////////////////////
 	
 	public String toString() {
-		return this.getObjectId() + ":" + this.getTitle() + ":" + numPage + ":" + this.getDateBorrowed().getFormattedDate() + ":"
+		if(this.getIsOnLoan()) {
+			return this.getObjectId() + ":" + this.getTitle() + ":" + numPage + ":" + this.getDateBorrowed().getFormattedDate() + ":"
 				+ LOAN_FEE_BOOK + ":" + MAX_LOAN_DAYS + ":" + translateTrueToActive(this.getIsActive());
+		} else {
+			return this.getObjectId() + ":" + this.getTitle() + ":" + numPage + ":nil:"
+					+ LOAN_FEE_BOOK + ":" + MAX_LOAN_DAYS + ":" + translateTrueToActive(this.getIsActive());
+		}
 	}
 	
 	public String translateTrueToActive(boolean isActive) {

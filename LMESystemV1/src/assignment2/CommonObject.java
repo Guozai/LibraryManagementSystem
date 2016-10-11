@@ -3,7 +3,7 @@ package assignment2;
 public abstract class CommonObject implements CommonInterface {
 	private char prefixId;
 	// private int numId;
-	protected String objectId;
+	private String objectId;
 	private String title;
 	private boolean isActive;
 	
@@ -33,18 +33,23 @@ public abstract class CommonObject implements CommonInterface {
 		return Integer.parseInt(objectId.substring(1, 6));
 	}
 	
-	public abstract void setObjectId(String objectId);
+	public boolean setObjectId(String objectId) {
+		this.objectId = objectId;
+		return true;
+	}
 	
 	public String getObjectId() {
 		return this.objectId;
 	}
 	
-	public void setTitle(String title) {
+	public boolean setTitle(String title) {
 		if(title.length() > 0) {
 			this.title = title;
+			return true;
 		}
 		else {
 			System.out.println("Error: Title or Memeber full name cannot be left blank!");
+			return false;
 		}
 	}
 	

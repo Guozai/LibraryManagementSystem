@@ -2,13 +2,13 @@ package lms.model.facade;
 
 
 import lms.model.util.DateTime;
+import assignment2.*;
 
 public class LMSFacade 
 {
-
+	private LMSMerchant lmsMerchant = new LMSMerchant();
 	/* you need to modify the methods below to forward calls to the methods in your library class
 	 * and return the correct values to your menu. */
-	
 	
 	public LMSFacade()
 	{
@@ -22,63 +22,63 @@ public class LMSFacade
 	
 	public boolean addBook(String id, String title, int numPages) 
 	{
-		return false;
+		return lmsMerchant.addBook(id, title, numPages);
 	}
 
 	public boolean addVideo(String id, String title, double loanFee, 
 			double runningTime) 
 	{
-		return false;
+		return lmsMerchant.addVideo(id, title, loanFee, runningTime);
 	}
 	
 	public boolean removeHolding(String holdingId) 
 	{
-		return false;
+		return lmsMerchant.removeHolding(holdingId);
 	}
 	
 	public boolean addMember(String id, String name) 
 	{
-		return false;		
+		return lmsMerchant.addMember(id, name);		
 	}
 	
 	public boolean removeMember(String memberId)
 	{
-		return false;
+		return lmsMerchant.removeMember(memberId);
 	}
 	
 	public boolean borrowHolding(String memberId, String holdingId)  
 	{
-		return false;
+		return lmsMerchant.borrowHolding(memberId, holdingId);
 	}
 	
 	public boolean returnHolding(String memberId, String holdingId, DateTime dateReturned) 
 	{
-		return false;
+		return lmsMerchant.returnHolding(memberId, holdingId, dateReturned);
 	}
 	
 	public String printAllHoldings()
 	{
-		return "";
+		return lmsMerchant.printAllHoldings();
 	}
 	
 	public String printAllMembers()
 	{
-		return "";
+		return "";//lmsMerchant.printAllMembers();
 	}
 	
 	public String printSpecificHolding(String holdingId)
 	{
-		return "";
+		return "";//lmsMerchant.printSpecificHolding(holdingId);
 	}
 	
 	public String printSpecificMember(String memberId)
 	{
-		return "";
+		return "";//lmsMerchant.printSpecificMember(memberId);
 	}
 	
 	public boolean resetMembersCredit(String memberId)
 	{
-		return false;
+		return false;//lmsMerchant.resetMembersCredit(memberId);
 	}
 	
 	public double getLateFee(String memberId)
@@ -88,16 +88,20 @@ public class LMSFacade
 	
 	public double getMembersBalance(String memberId)
 	{
-		return 0.0;
+		return 0.0;//lmsMerchant.getMembersBalance(memberId);
 	}
 	
 	public boolean activate(String id)
 	{
-		return false;
+		return lmsMerchant.activate(id);
 	}
 
 	public boolean deactivate(String id)
 	{
-		return false;
+		return lmsMerchant.deactivate(id);
+	}
+	
+	public void test() {
+		lmsMerchant.test();
 	}
 }

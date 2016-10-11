@@ -49,9 +49,15 @@ public class Video extends Holding implements CommonInterface, HoldingInterface 
 	////////////////////////////////////////////////////////////////////////
 	
 	public String toString() {
-		return this.getObjectId() + ":" + this.getTitle() + ":" + this.runningTime + ":" 
+		if(this.getIsOnLoan()) {
+			return this.getObjectId() + ":" + this.getTitle() + ":" + this.runningTime + ":" 
 				+ this.getDateBorrowed() + ":" + this.getLoanFee() + ":" + MAX_LOAN_DAYS + ":" 
 				+ translateTrueToActive(this.getIsActive());
+		} else {
+			return this.getObjectId() + ":" + this.getTitle() + ":" + this.runningTime + ":nil:" 
+					+ this.getLoanFee() + ":" + MAX_LOAN_DAYS + ":" 
+					+ translateTrueToActive(this.getIsActive());
+		}
 	}
 	
 	public String translateTrueToActive(boolean isActive) {
