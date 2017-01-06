@@ -14,6 +14,7 @@ public class Runner {
 		
 		Menu menu1 = new Menu();
 		menu1.initialize();
-		//menu1.printMenu();
+		//menu1.test();
+		menu1.printMenu();
 	}
 }

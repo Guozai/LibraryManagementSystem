@@ -15,9 +15,11 @@ public class StandardMember extends Member implements CommonInterface, MemberInt
 	public boolean returnHolding(Holding holding, DateTime returnDate) {
 		creditTemp -= getCredit() - holding.calculateLateFee(returnDate);
 		if(creditTemp < 0) {
-			removeHoldingFromArray(holding);
 			resetCredit();
 		}
+		holding.setIsOnLoan(false);
+		holding.setMemberId(null);
+		removeHoldingFromList(holding);
 		return true;
 	}
 	

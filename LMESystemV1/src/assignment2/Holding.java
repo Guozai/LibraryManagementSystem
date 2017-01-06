@@ -103,15 +103,18 @@ public abstract class Holding extends CommonObject implements CommonInterface, H
 		return this.numLateDay;
 	}
 	
-	public void setIsOnLoan() {
-		this.isOnLoan = true; 
+	public void setIsOnLoan(boolean isOnLoan) {
+		this.isOnLoan = isOnLoan; 
 	}
 	public boolean getIsOnLoan() {
 		return this.isOnLoan;
 	}
 	
-	public void setIsNotOnLoan() {
-		this.isOnLoan = false;
+	public void setMemberId(String memberId) {
+		this.memberId = memberId;
+	}
+	public String getMemberId() {
+		return this.memberId;
 	}
 	////////////////////////////////////////////////////////////////////////
 	

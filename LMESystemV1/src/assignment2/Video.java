@@ -95,7 +95,7 @@ public class Video extends Holding implements CommonInterface, HoldingInterface 
 	public void testVideo() {
 		System.out.println("Running the unit test for Video class...");
 		this.activate();
-		this.setIsOnLoan();
+		this.setIsOnLoan(true);
 		this.setDateBorrowed(new DateTime());
 		System.out.print(this.print());
 		System.out.print("\n\n");
@@ -104,7 +104,7 @@ public class Video extends Holding implements CommonInterface, HoldingInterface 
 		System.out.print("\n");
 		
 		this.activate();
-		this.setIsNotOnLoan();
+		this.setIsOnLoan(false);
 		System.out.print(this.print());
 	}
 }

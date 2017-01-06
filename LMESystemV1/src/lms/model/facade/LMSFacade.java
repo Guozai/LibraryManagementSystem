@@ -63,32 +63,32 @@ public class LMSFacade
 	
 	public String printAllMembers()
 	{
-		return "";//lmsMerchant.printAllMembers();
+		return lmsMerchant.printAllMembers();
 	}
 	
 	public String printSpecificHolding(String holdingId)
 	{
-		return "";//lmsMerchant.printSpecificHolding(holdingId);
+		return lmsMerchant.printSpecificHolding(holdingId);
 	}
 	
 	public String printSpecificMember(String memberId)
 	{
-		return "";//lmsMerchant.printSpecificMember(memberId);
+		return lmsMerchant.printSpecificMember(memberId);
 	}
 	
 	public boolean resetMembersCredit(String memberId)
 	{
-		return false;//lmsMerchant.resetMembersCredit(memberId);
+		return lmsMerchant.resetMembersCredit(memberId);
 	}
 	
 	public double getLateFee(String memberId)
 	{
-		return 0.0;
+		return lmsMerchant.getLateFee(memberId);
 	}
 	
 	public double getMembersBalance(String memberId)
 	{
-		return 0.0;//lmsMerchant.getMembersBalance(memberId);
+		return lmsMerchant.getMembersBalance(memberId);
 	}
 	
 	public boolean activate(String id)
@@ -99,6 +99,14 @@ public class LMSFacade
 	public boolean deactivate(String id)
 	{
 		return lmsMerchant.deactivate(id);
+	}
+	
+	public void fileWriter() {
+		lmsMerchant.fileWriter();
+	}
+	
+	public void fileReader() {
+		lmsMerchant.fileReader();
 	}
 	
 	public void test() {

@@ -30,8 +30,7 @@ public class Menu {
 		lmsFacade.addMember("p000001", "Fred Bloggs");
 		lmsFacade.addMember("p000002", "Fred Smith");
 		lmsFacade.borrowHolding("p000002", "b000001");
-		//lmsFacade.test();
-		System.out.println(lmsFacade.printAllHoldings());
+//		lmsFacade.returnHolding("p000002", "b000001", dateReturned)
 	}
 	
 	public void printMenu() {
@@ -199,10 +198,10 @@ public class Menu {
 						}
 						break;
 					case 7:
-						lmsFacade.printAllHoldings();
+						System.out.println(lmsFacade.printAllHoldings());
 						break;
 					case 8:
-						lmsFacade.printAllMembers();
+						System.out.println(lmsFacade.printAllMembers());
 						break;
 					case 9:
 						System.out.print("Please enter the holding ID: ");
@@ -237,8 +236,10 @@ public class Menu {
 						}
 						break;
 					case 14:
+						lmsFacade.fileWriter();
 						break;
 					case 15:
+						lmsFacade.fileReader();
 						break;
 					case 0:
 						break;
@@ -248,5 +249,12 @@ public class Menu {
 			}
 		} while (selection != 0);
 	sc.close();
+	}
+	
+	public void test() {
+		//lmsFacade.test();
+		System.out.println(lmsFacade.printAllHoldings());
+		//lmsFacade.fileWriter();
+		lmsFacade.fileReader();
 	}
 }

@@ -13,7 +13,9 @@ public class PremiumMember extends Member implements CommonInterface, MemberInte
 	
 	public boolean returnHolding(Holding holding, DateTime returnDate) {
 		credit -= getCredit() - holding.calculateLateFee(returnDate);
-		removeHoldingFromArray(holding);
+		holding.setIsOnLoan(false);
+		holding.setMemberId(null);
+		removeHoldingFromList(holding);
 		if(credit < 0) {
 			setIsActive(false);
 		}

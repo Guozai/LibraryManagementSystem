@@ -1,12 +1,16 @@
 package assignment2;
 
+import java.util.ArrayList;
+
+import lms.model.util.*;
+
 public abstract class Member extends CommonObject implements CommonInterface, MemberInterface {
 	private double credit;
-	private int numHolding;
-	private Holding[] holdings = new Holding[20];
+	//private int numHolding;
 	private static final double MAX_CREDIT_STANDARD_MEMBER = 30;
 	private final double MAX_CREDIT_PREMIUM_MEMBER = 45;
 	private char prefixId;
+	private ArrayList<String> holdingIds = new ArrayList<String>();
 	
 	public Member(String memberId, String fullName, int credit) {
 		this.setObjectId(memberId);
@@ -28,7 +32,7 @@ public abstract class Member extends CommonObject implements CommonInterface, Me
 				System.out.println("Re-enter the credit amount, must be 45.");
 			}
 		}
-		
+		this.setIsActive(true);
 	}
 	
 	////////////////////////////////////////////////////////////////////////
@@ -60,28 +64,14 @@ public abstract class Member extends CommonObject implements CommonInterface, Me
 		return this.credit;
 	}
 	
-	//public void setHolding(String holdingId) {
-	//	
-	//}
-	//public Holding getHolding() {
-	//	
-	//}
-	
-	/**public void getHoldingIdBorrowed() {
-		if (holdings.length > 0) {
-			holdingIdTemp += holdings[0].getHoldingId();
-			for (int i = 1; i < holdings.length; i++) {
-				holdingIdTemp += ":" + holdings[i].getHoldingId();
-			}
-		}
-		return holdingIdTemp;
-	}*/
 	////////////////////////////////////////////////////////////////////////
 	
 	public boolean borrowHolding(Holding holding) {
 		if (getIsActive() == true || credit > holding.getLoanFee()) {
 			credit -= holding.getLoanFee();
-			holdings[holdings.length-1] = holding;
+			holding.setMemberId(this.getObjectId());
+			holding.setIsOnLoan(true);
+			holdingIds.add(holding.getObjectId());
 			return true;
 		}
 		else {
@@ -89,42 +79,20 @@ public abstract class Member extends CommonObject implements CommonInterface, Me
 		}
 	}
 	
-	/**public boolean returnHolding(Holding holding, DateTime returnDate) {
-		if(getPrefixId(memberId) == 's') {
-			credit -= holding.calculateLateFee(returnDate);
-			if(credit < 0) {
-				removeHoldingFromArray(holding);
-				credit += MAX_CREDIT_STANDARD_MEMBER;
-			}
-			return true;
+	public abstract boolean returnHolding(Holding holding, DateTime returnDate);
+	
+	private int indexArrayList;
+	public boolean removeHoldingFromList(Holding holding) {
+		indexArrayList = 0;
+		while(!(holdingIds.get(indexArrayList).equals(holding.getObjectId())) && indexArrayList < holdingIds.size()) {
+			indexArrayList++;
 		}
-		else if(getPrefixId(memberId) == 'p') {
-			credit -= holding.calculateLateFee(returnDate);
-			if(credit < 0) {
-				return isActive = false;
-			}
-			else {
-				return isActive = true;
-			}
-		}
-		else {
-			System.out.println("Unknown error!");
+		if(holdingIds.get(indexArrayList).equals(holding.getObjectId())) {
+		    holdingIds.remove(indexArrayList);
+		    return true;
+		} else {
 			return false;
 		}
-	}*/
-	
-	private int arrayIndex = 0;
-	public void removeHoldingFromArray(Holding holding) {
-		numHolding = getNumId(holding.getObjectId());
-		while(getNumId(holdings[arrayIndex].getObjectId()) != numHolding) {
-			arrayIndex++;
-		}
-		for(int h = arrayIndex; h < holdings.length - 1; h++) {
-			holdings[h] = holdings[h + 1];
-		}
-		holdings[holdings.length - 1].setObjectId("");
-		holdings[holdings.length - 1].setTitle("");
-		holdings[holdings.length - 1].deactivate();
 	}
 	
 	public abstract boolean resetCredit();
@@ -144,13 +112,17 @@ public abstract class Member extends CommonObject implements CommonInterface, Me
 	
 	public String print() {
 		if (getIsActive() == true) {
-			if (numHolding == 0) {
+			if (holdingIds.size() == 0) {
 				return "ID:                  " + getObjectId() + "\nName:              " + getTitle()
 						+ "\nRemaining Credit:   " + credit;
-			} else if (numHolding >= 1) {
-				return "Two or more items on loan:\nID:                  " + getObjectId() + "\nName:              "
+			} else if (holdingIds.size() == 1) {
+				return "One Item on Loan:\nID:                 " + getObjectId() + "\nName:               "
 						+ getTitle() + "\nRemaining Credit:   " + credit + "\nCurrent holdings on loan:\n"
-						+ displayHoldingId(numHolding);
+						+ holdingIds.get(0);
+			} else if (holdingIds.size() > 1) {
+				return "Two or more items on loan:\nID:                 " + getObjectId() + "\nName:               "
+						+ getTitle() + "\nRemaining Credit:   " + credit + "\nCurrent holdings on loan:\n"
+						+ displayHoldingId(holdingIds);
 			} else {
 				return "Error: number of holdings is < 0.";
 			}
@@ -162,12 +134,9 @@ public abstract class Member extends CommonObject implements CommonInterface, Me
 	
 	private String holdingIdTemp;
 	
-	public String displayHoldingId(int numHolding) {
-		if(numHolding >= 1) {
-			holdingIdTemp += holdings[0].getObjectId();
-			for(int i = 1; i < numHolding; i++) {
-				holdingIdTemp += ":" + holdings[i].getObjectId();
-			}
+	public String displayHoldingId(ArrayList<String> holdingIds) {
+		for (int indexArrayList = 0; indexArrayList < holdingIds.size(); indexArrayList++) {
+			holdingIdTemp += holdingIds.get(indexArrayList) + ":";
 		}
 		return holdingIdTemp;
 	}
